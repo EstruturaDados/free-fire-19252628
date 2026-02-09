@@ -1,75 +1,54 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-// Definindo como é um item da nossa mochila
-struct Item {
+// Estrutura do Item
+typedef struct {
     char nome[30];
     char tipo[20];
     int quantidade;
-};
+} Item;
+
+// Função para ordenar o Vetor (Bubble Sort)
+void ordenarVetor(Item vetor[], int n, int* comp) {
+    *comp = 0;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            (*comp)++;
+            if (strcmp(vetor[j].nome, vetor[j + 1].nome) > 0) {
+                Item temp = vetor[j];
+                vetor[j] = vetor[j + 1];
+                vetor[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// Função de Busca Binária
+int buscaBinaria(Item vetor[], int n, char* alvo, int* comp) {
+    int inicio = 0, fim = n - 1;
+    *comp = 0;
+    while (inicio <= fim) {
+        (*comp)++;
+        int meio = (inicio + fim) / 2;
+        int res = strcmp(vetor[meio].nome, alvo);
+        if (res == 0) return meio;
+        if (res < 0) inicio = meio + 1;
+        else fim = meio - 1;
+    }
+    return -1;
+}
 
 int main() {
-    struct Item mochila[10]; // Vetor fixo para 10 itens
-    int totalItens = 0;      // Contador para saber quantos itens já temos
-    int opcao;
+    Item mochilaVetor[10];
+    int totalVetor = 0, opcao, comparacoes;
 
-    do {
-        // Menu interativo
-        printf("\n--- MOCHILA DE SOBREVIVENCIA (FREE FIRE) ---\n");
-        printf("1. Adicionar Item\n");
-        printf("2. Listar Itens\n");
-        printf("3. Remover Ultimo Item\n");
-        printf("0. Sair\n");
-        printf("Escolha uma opcao: ");
-        scanf("%d", &opcao);
-
-        switch (opcao) {
-            case 1:
-                if (totalItens < 10) {
-                    printf("\nNome do item: ");
-                    scanf(" %[^\n]s", mochila[totalItens].nome);
-                    printf("Tipo (Arma/Municao/Cura): ");
-                    scanf("%s", mochila[totalItens].tipo);
-                    printf("Quantidade: ");
-                    scanf("%d", &mochila[totalItens].quantidade);
-                    
-                    totalItens++;
-                    printf("Item adicionado com sucesso!\n");
-                } else {
-                    printf("\nMochila cheia! Nao cabe mais nada.\n");
-                }
-                break;
-
-            case 2:
-                if (totalItens == 0) {
-                    printf("\nA mochila esta vazia.\n");
-                } else {
-                    printf("\n--- ITENS NA MOCHILA ---\n");
-                    printf("%-15s | %-10s | %-5s\n", "NOME", "TIPO", "QTD");
-                    for (int i = 0; i < totalItens; i++) {
-                        printf("%-15s | %-10s | %-5d\n", 
-                               mochila[i].nome, mochila[i].tipo, mochila[i].quantidade);
-                    }
-                }
-                break;
-
-            case 3:
-                if (totalItens > 0) {
-                    totalItens--; // Apenas diminuímos o contador para "esconder" o item
-                    printf("\nUltimo item removido da mochila.\n");
-                } else {
-                    printf("\nNada para remover.\n");
-                }
-                break;
-
-            case 0:
-                printf("\nSaindo... Boa sorte na ilha!\n");
-                break;
-
-            default:
-                printf("\nOpcao invalida!\n");
-        }
-    } while (opcao != 0);
+    printf("--- MATECHECK: MODO VETOR ---\n");
+    // Aqui voce cadastraria e testaria a busca...
+    // (Apenas para o primeiro commit)
+    printf("Sistema de Vetor pronto para receber itens.\n");
 
     return 0;
 }
+
+
